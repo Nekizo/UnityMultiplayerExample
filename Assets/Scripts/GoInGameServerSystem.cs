@@ -20,21 +20,11 @@ partial struct GoInGameServerSystem : ISystem
        state.RequireForUpdate<NetworkId>(); 
     }
 
-    // [BurstCompile]
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        // SystemAPI.Query<RefRO<NetworkId>>()
         int playerCount = state.GetEntityQuery(typeof(NetworkId)).CalculateEntityCount();
 
-        // foreach((
-        //         RefRO<NetworkId> networkId,
-        //         Entity entity
-        //     ) in SystemAPI.Query<RefRO<NetworkId>>()
-        //         .WithEntityAccess()
-        //     )
-        // {
-        //     playerCount = 1;
-        // }
         EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
         EntitesReferences entitesReferences = SystemAPI.GetSingleton<EntitesReferences>();
         foreach((
@@ -66,7 +56,6 @@ partial struct GoInGameServerSystem : ISystem
                     name ="User " + playerCount
                 });
                 
-                // Debug.Log("bla :: "+receiveRpcCommandRequest.ValueRO.SourceConnection);
                 entityCommandBuffer.AppendToBuffer(receiveRpcCommandRequest.ValueRO.SourceConnection,new LinkedEntityGroup
                 {
                     Value=playerEntity, 

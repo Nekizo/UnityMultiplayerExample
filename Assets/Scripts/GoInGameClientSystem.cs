@@ -18,7 +18,6 @@ partial struct GoInGameClientSystem : ISystem
     {
        state.RequireForUpdate<EntitesReferences>(); 
        state.RequireForUpdate<NetworkId>(); 
-    //    state.RequireForUpdate<PlayerInput>();
     }
 
     #if !DEBUG_LOG
@@ -27,7 +26,6 @@ partial struct GoInGameClientSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         EntitesReferences entitesReferences = SystemAPI.GetSingleton<EntitesReferences>();
-        // PlayerInput playerInput =SystemAPI.GetSingleton<PlayerInput>();
         EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
         foreach((
                 RefRO<NetworkId> networkId,
@@ -37,7 +35,6 @@ partial struct GoInGameClientSystem : ISystem
                 WithEntityAccess()
             ){
             entityCommandBuffer.AddComponent<NetworkStreamInGame>(entity);
-            // entityCommandBuffer.Playback(state.EntityManager);
             #if DEBUG_LOG
                 Debug.Log("Setting Client as in Game");
             #endif
@@ -50,11 +47,6 @@ partial struct GoInGameClientSystem : ISystem
         
     }
 
-    [BurstCompile]
-    public void OnDestroy(ref SystemState state)
-    {
-        
-    }
 }
 
 public struct GoInGameRequestRpc : IRpcCommand

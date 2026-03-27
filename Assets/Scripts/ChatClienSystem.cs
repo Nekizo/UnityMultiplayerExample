@@ -16,15 +16,6 @@ public partial class ChatClienSystem : SystemBase
         RequireForUpdate<ReceiveRpcCommandRequest>();
     }
 
-    protected override void OnStartRunning()
-    {
-
-    }
-    protected override void OnStopRunning()
-    {
-
-    }
-
     protected override void OnUpdate()
     {
         ChatManager chatManager = EntityManager.GetComponentObject<ChatManager>(SystemAPI.GetSingletonEntity<ChatManagerTag>());
